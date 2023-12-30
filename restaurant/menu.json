@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Борщ",
+    "price": 10,
+    "image": "img/борщ.jpeg"
+  },
+  {
+    "name": "Картошка",
+    "price": 12,
+    "image": "img/картошка.jpg"
+  },
+  {
+    "name": "Паста",
+    "price": 15,
+    "image": "img/паста.jpeg"
+  }
+]
