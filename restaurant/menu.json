@@ -13,5 +13,55 @@
     "name": "Паста",
     "price": 15,
     "image": "img/паста.jpeg"
+  },
+  {
+    "name": "Уха",
+    "price": 15,
+    "image": "img/уха.jpeg"
+  },
+  {
+    "name": "Щи",
+    "price": 8,
+    "image": "img/щи.jpg"
+  },
+  {
+    "name": "Цезарь",
+    "price": 9,
+    "image": "img/цезарь.jpg"
+  },
+  {
+    "name": "Стейк",
+    "price": 20,
+    "image": "img/стейк.jpg"
+  },
+  {
+    "name": "Чай",
+    "price": 5,
+    "image": "img/чай.jpg"
+  },
+  {
+    "name": "Кофе",
+    "price": 7,
+    "image": "img/кофе.jpg"
+  },
+  {
+    "name": "Пирог с рыбой",
+    "price": 14,
+    "image": "img/пирог.jpeg"
+  },
+  {
+    "name": "Сэндвич",
+    "price": 11,
+    "image": "img/сэндвич.jpg"
+  },
+  {
+    "name": "Фруктовая нарезка",
+    "price": 6,
+    "image": "img/фрукты.jpg"
+  },
+  {
+    "name": "Мороженое",
+    "price": 7,
+    "image": "img/мороженое.jpeg"
   }
 ]
