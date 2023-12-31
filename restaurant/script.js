@@ -1,12 +1,9 @@
 generateMenu();
 getCartItemsFromLocalStorage();
 updateItemsTotal();
-// if the local storage is empty cartItems is null
 
 document.querySelector(".cart").onclick = toggleCartPopup;
 document.querySelector(".close").onclick = toggleCartPopup;
-
-// Event listener for the "Оплатить" button
 document.getElementById("payButton").onclick = openPurchaseWindow;
 document.getElementById("submitPayment").onclick = completePurchase;
 
