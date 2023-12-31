@@ -1,14 +1,7 @@
-// Call generateMenu function to display menu items
 generateMenu();
-
-let cartItems = JSON.parse(localStorage.getItem("cart"));
+getCartItemsFromLocalStorage();
+updateItemsTotal();
 // if the local storage is empty cartItems is null
-if (!cartItems) {
-  cartItems = [];
-  let uniqueItemsNames = new Set();
-} else {
-  updateItemsTotal();
-}
 
 document.querySelector(".cart").onclick = toggleCartPopup;
 document.querySelector(".close").onclick = toggleCartPopup;
@@ -61,6 +54,14 @@ async function generateMenu() {
       menuContainer.appendChild(menuItem);
     });
   }
+}
+
+function getCartItemsFromLocalStorage() {
+  window.cartItems = JSON.parse(localStorage.getItem("cart"));
+  if (!cartItems) {
+    cartItems = [];
+  }
+  return cartItems;
 }
 
 function addToCart(itemName, price) {
@@ -154,7 +155,7 @@ function updateCartPopup() {
       li.appendChild(decreaseButton);
       li.appendChild(increaseButton);
       cartItemsList.appendChild(li);
-      totalPrice += item.price;
+      totalPrice += item.price * item.count;
     }
   });
   cartTotal.textContent = totalPrice;
