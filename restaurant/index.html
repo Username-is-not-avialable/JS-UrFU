@@ -18,8 +18,8 @@
       </div>
     </header>
 
+    <h1>Меню</h1>
     <div class="menu"></div>
-
     <div class="cart-popup" id="cartPopup" style="display: none">
       <div class="cart-content">
         <span class="close">&times;</span>
@@ -29,7 +29,46 @@
         </ul>
         <p>Сумма: <span id="cartTotalPrice">0</span> ₽</p>
         <div>
-          <button>Оплатить</button>
+          <button id="payButton">Оплатить</button>
+        </div>
+        <div class="purchase-window" id="purchaseWindow">
+          <div class="purchase-content">
+            <span class="close" onclick="closePurchaseWindow()">&times;</span>
+            <h2>Оплата</h2>
+            <form id="paymentForm">
+              <div class="form-group">
+                <label for="cardNumber">Номер карты:</label>
+                <input
+                  type="text"
+                  id="cardNumber"
+                  name="cardNumber"
+                  placeholder="Введите номер карты"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="expiryDate">Срок действия:</label>
+                <input
+                  type="text"
+                  id="expiryDate"
+                  name="expiryDate"
+                  placeholder="MM/YY"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVC/CVV:</label>
+                <input
+                  type="text"
+                  id="cvv"
+                  name="cvv"
+                  placeholder="CVC/CVV"
+                  required
+                />
+              </div>
+              <button type="submit" id="submitPayment">Оплатить</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

@@ -4,6 +4,10 @@ body {
   padding: 0;
 }
 
+h1 {
+  text-align: center;
+}
+
 header {
   background-color: #333;
   color: #fff;
@@ -16,7 +20,7 @@ footer {
   color: #fff;
   text-align: center;
   padding: 10px 0;
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   width: 100%;
 }
@@ -80,11 +84,13 @@ header {
   box-shadow: 0px 0px 10px #000;
 }
 
+#cartItemsList {
+  line-height: 2em;
+}
+
 .close {
   position: relative;
   float: right;
-  /* top: 10px; */
-  /* left: 0px; */
   align-self: center;
   cursor: pointer;
   font-size: 20px;
@@ -94,4 +100,66 @@ header {
 /* Change close button color on hover */
 .close:hover {
   color: #000;
+}
+
+.decrease-button {
+  margin-left: 1em;
+}
+
+.increase-button {
+  margin-left: 1em;
+}
+
+.purchase-window {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+.purchase-content {
+  text-align: center;
+}
+
+.purchase-content .close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.purchase-content form {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
