@@ -1,3 +1,22 @@
+// Call generateMenu function to display menu items
+generateMenu();
+
+let cartItems = JSON.parse(localStorage.getItem("cart"));
+// if the local storage is empty cartItems is null
+if (!cartItems) {
+  cartItems = [];
+  let uniqueItemsNames = new Set();
+} else {
+  updateItemsTotal();
+}
+
+document.querySelector(".cart").onclick = toggleCartPopup;
+document.querySelector(".close").onclick = toggleCartPopup;
+
+// Event listener for the "Оплатить" button
+document.getElementById("payButton").onclick = openPurchaseWindow;
+document.getElementById("submitPayment").onclick = completePurchase;
+
 async function fetchMenu() {
   try {
     const response = await fetch("menu.json");
@@ -8,7 +27,7 @@ async function fetchMenu() {
   }
 }
 
-// Function to generate HTML for menu items
+// Generate HTML for menu items
 async function generateMenu() {
   const menuData = await fetchMenu();
 
@@ -44,56 +63,47 @@ async function generateMenu() {
   }
 }
 
-// Call generateMenu function to display menu items
-generateMenu();
-
-let cartItems = JSON.parse(localStorage.getItem("cart"));
-//checking for null
-if (!cartItems) {
-  cartItems = [];
-  let uniqueItemsNames = new Set();
-} else {
-  // let uniqueItemsNames = new Set(cartItems.map((x) => x.name));
-  updateCart();
-}
-
 function addToCart(itemName, price) {
-  if (window.uniqueItemsNames) {
-    if (window.uniqueItemsNames.has(itemName)) {
-      currentItem = cartItems.find((item) => item.name === itemName);
-      currentItem["count"] = currentItem["count"] + 1;
-    } else {
-      cartItems.push({ name: itemName, price: price, count: 1 });
-    }
+  uniqueItemsNames = new Set(cartItems.map((x) => x.name));
+  if (uniqueItemsNames && uniqueItemsNames.has(itemName)) {
+    currentItem = cartItems.find((item) => item.name === itemName);
+    currentItem["count"] = currentItem["count"] + 1;
   } else {
     cartItems.push({ name: itemName, price: price, count: 1 });
   }
-  // totalPrice += price;
-  updateCart();
+  updateItemsTotal();
+  updateLocalStorage();
 }
 
-// re-renders the cart with the updated total items count.
-function updateCart() {
-  const totalSpan = document.getElementById("cart-total");
+function updateItemsTotal() {
+  const totalItems = document.getElementById("cart-total");
   let itemsCount = 0;
   cartItems.map((item) => (itemsCount += item.count));
-  totalSpan.textContent = itemsCount;
+  totalItems.textContent = itemsCount;
+}
+
+function deleteZeroUnitsItemsFromCart() {
   cartItems = cartItems.filter((item) => item.count > 0);
+}
+
+// Update local storage based on cartItems global variable
+function updateLocalStorage() {
   localStorage.setItem("cart", JSON.stringify(cartItems));
-  window.uniqueItemsNames = new Set(cartItems.map((x) => x.name));
 }
 
 function decreaseItemCount(itemName) {
   currentItem = cartItems.find((item) => item.name === itemName);
   currentItem.count -= 1;
-  updateCart();
+  deleteZeroUnitsItemsFromCart();
+  updateLocalStorage();
   updateCartPopup();
 }
 
 function increaseItemCount(itemName) {
   currentItem = cartItems.find((item) => item.name === itemName);
   currentItem.count += 1;
-  updateCart();
+  updateItemsTotal();
+  updateLocalStorage();
   updateCartPopup();
 }
 
@@ -103,8 +113,13 @@ function delItemFromCart(itemName) {
   cart;
 }
 
-let cart = document.querySelector(".cart");
-cart.onclick = toggleCartPopup;
+function clearCart() {
+  cartItems = [];
+  updateItemsTotal();
+  deleteZeroUnitsItemsFromCart();
+  updateLocalStorage();
+  updateCartPopup();
+}
 
 function toggleCartPopup() {
   const cartPopup = document.getElementById("cartPopup");
@@ -117,6 +132,7 @@ function toggleCartPopup() {
   }
 }
 
+// Re-render cart popup
 function updateCartPopup() {
   const cartItemsList = document.getElementById("cartItemsList");
   const cartTotal = document.getElementById("cartTotalPrice");
@@ -124,6 +140,7 @@ function updateCartPopup() {
   cartItemsList.innerHTML = "";
   let totalPrice = 0;
 
+  // re-render every item in cart popup
   cartItems.forEach((item) => {
     if (item.count > 0) {
       const li = document.createElement("li");
@@ -140,12 +157,11 @@ function updateCartPopup() {
       totalPrice += item.price;
     }
   });
-
   cartTotal.textContent = totalPrice;
 }
 
 function createDecreaseButton(itemName) {
-  const decreaseButton = document.createElement("button"); //incapsulate in CreateDecreaseBut
+  const decreaseButton = document.createElement("button");
   decreaseButton.classList.add("decrease-button");
   decreaseButton.innerText = "-";
   decreaseButton.onclick = () => decreaseItemCount(itemName);
@@ -153,24 +169,11 @@ function createDecreaseButton(itemName) {
 }
 
 function createIncreaseButton(itemName) {
-  const increaseButton = document.createElement("button"); //incapsulate in CreateDecreaseBut
+  const increaseButton = document.createElement("button");
   increaseButton.classList.add("increase-button");
   increaseButton.innerText = "+";
   increaseButton.onclick = () => increaseItemCount(itemName);
   return increaseButton;
-}
-
-let close = document.querySelector(".close");
-close.onclick = toggleCartPopup;
-
-//count occurrences of each element in cart
-function countItems(cartItems) {
-  let itemsCount = {};
-  for (let itemName of new Set(cartItems.map((x) => x.name))) {
-    itemsCount[itemName] = cartItems.filter((x) => x.name === itemName).length;
-    console.log(itemName);
-  }
-  return itemsCount;
 }
 
 function openPurchaseWindow() {
@@ -181,22 +184,13 @@ function openPurchaseWindow() {
   } руб`;
 }
 
-// Function to close the purchase window
 function closePurchaseWindow() {
   const purchaseWindow = document.getElementById("purchaseWindow");
   purchaseWindow.style.display = "none";
 }
-document.getElementById("submitPayment").onclick = completePurchase;
-// Function to complete the purchase
+
 function completePurchase() {
-  // submitBtn = document.getElementById("submitPayment");
-  // submitBtn.onclick=completePurchase;
-  // Add your logic for completing the purchase here
-  // This function is an example placeholder for the purchase completion
   alert("Платеж проведен успешно!");
   closePurchaseWindow();
+  clearCart();
 }
-
-// Event listener for the "Оплатить" button
-const payButton = document.getElementById("payButton");
-payButton.addEventListener("click", openPurchaseWindow);
